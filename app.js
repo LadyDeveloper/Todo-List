@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Item = require('./models/item');
 const List = require('./models/list');
 const _ = require('lodash');
+require('dotenv').config({path: __dirname + '/.env'});
 
 const app = express();
 
@@ -13,7 +14,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-mongoose.connect('mongodb://localhost/todolistDB', {useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false });
+mongoose.connect(process.env.DB_CONN, {useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false });
 
 const defaultItems = [
     {  name: "Coding Project" },
@@ -110,10 +111,13 @@ app.get('/:category', (req, res) => {
         }
     });  
    
-            // res.redirect('/');
-    // res.send(category);
 });
 
-app.listen(3000, () => {
-    console.log('Server running on port 3000');
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
+
+app.listen(port, () => {
+    console.log('Server has started!');
 });
