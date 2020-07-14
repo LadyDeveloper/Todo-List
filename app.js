@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Item = require('./models/item');
 const List = require('./models/list');
 const _ = require('lodash');
-require('dotenv').config({path: __dirname + '/.env'});
+require('dotenv').config({path: '.env'});
 
 const app = express();
 
@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 mongoose.connect(process.env.DB_CONN, {useNewUrlParser: true,  useUnifiedTopology: true, useFindAndModify: false });
-
+console.log('Database ' + process.env.DB_CONN);
 const defaultItems = [
     {  name: "Coding Project" },
     { name: "Morning Routine" },
